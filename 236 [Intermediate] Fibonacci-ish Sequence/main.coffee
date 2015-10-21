@@ -5,7 +5,7 @@ fib = (n, f = 1) ->
     if n < 1
         0
     else if n < 2
-        1 * f
+        f
     else
         fib(n - 1, f) + fib(n - 2, f)
 
