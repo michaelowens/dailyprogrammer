@@ -13,7 +13,8 @@ find_lowest_fib = (x) ->
     factor = 1
     highest_factor = 0
     cache = [0]
-    n = i = 1
+    n = 0
+    i = 1
     while n < x
         n = fib i++, factor
         cache.push n
