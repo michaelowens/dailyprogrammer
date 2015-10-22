@@ -20,16 +20,17 @@ findLayers = (lines) ->
             if line[i] is '+' and not existingBox [row, i]
                 inBox = true
                 start = i
-                while inBox
-                    char = line[++i]
-                    if char is '+'
-                        r = row
-                        while inBox
-                            char = lines[++r][i]
-                            if char is '+'
-                                layers.push [[row, start], [r, i]]
-                                inBox = false
-            i++
+            if inBox
+                char = line[++i]
+                if char is '+'
+                    r = row
+                    while inBox
+                        char = lines[++r][i]
+                        if char is '+'
+                            layers.push [[row, start], [r, i]]
+                            inBox = false
+            else
+                i++
 
 existingBox = (pos) ->
     layers.length && layers.some (layer) ->
