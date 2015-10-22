@@ -14,25 +14,25 @@ fs.readFile __dirname + '/input.txt', 'utf-8', (err, contents) ->
 
 findLayers = (lines) ->
     lines.forEach (line, row) ->
-        inBox = false
+        inLayer = false
         i = 0
         while i < line.length
-            if line[i] is '+' and not existingBox [row, i]
-                inBox = true
+            if line[i] is '+' and not existingLayer [row, i]
+                inLayer = true
                 start = i
-            if inBox
+            if inLayer
                 char = line[++i]
                 if char is '+'
                     r = row
-                    while inBox
+                    while inLayer
                         char = lines[++r][i]
                         if char is '+'
                             layers.push [[row, start], [r, i]]
-                            inBox = false
+                            inLayer = false
             else
                 i++
 
-existingBox = (pos) ->
+existingLayer = (pos) ->
     layers.length && layers.some (layer) ->
         [
             layer[0].toString(),
@@ -41,7 +41,7 @@ existingBox = (pos) ->
             [layer[1][0], layer[0][1]].toString()
         ].indexOf(pos.toString()) > -1
 
-containingBoxes = (pos) ->
+containingLayers = (pos) ->
     layers.filter (layer) ->
         pos[0] > layer[0][0] and pos[0] < layer[1][0] and pos[1] > layer[0][1] and pos[1] < layer[1][1]
     .length
@@ -52,7 +52,7 @@ heightmap = (lines) ->
         console.log (
             line.map (char, i) ->
                 if char is ' '
-                    height = containingBoxes [r, i]
+                    height = containingLayers [r, i]
                     height = layerTile.length unless height < layerTile.length
                     layerTile[height - 1]
                 else
